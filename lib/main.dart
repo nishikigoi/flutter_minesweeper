@@ -45,14 +45,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<List<String>> gridState = [
-  ['', 'T', '', '', '', '', '', 'P2'],
-  ['', '', '', 'T', '', '', '', ''],
-  ['B', 'T', '', '', '', 'B', '', ''],
-  ['', '', '', 'B', '', '', '', 'T'],
-  ['', '', 'T', '', '', 'T', '', ''],
+  ['', '0', '0', '', '', '', '', 'B'],
+  ['', '', '', 'F', '', '', '', ''],
+  ['1', '2', '', '', '', '3', '', ''],
+  ['', '', '', '4', '', '', '', '2'],
+  ['', '', '0', '', '', '1', '', ''],
   ['', '', '', '', '', '', '', 'B'],
-  ['', '', '', '', 'T', '', '', ''],
-  ['P1', '', '', '', '', '', 'T', ''],
+  ['', '', '', '', 'F', '', '', ''],
+  ['1', '', '', '', '', '', '3', ''],
   ];
 
   @override
@@ -121,27 +121,46 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildGridItem(int x, int y) {
     switch (gridState[x][y]) {
       case '':
-        return Text('');
-        break;
-      case 'P1':
         return Container(
-          color: Colors.blue,
+          color: Colors.grey,
         );
         break;
-      case 'P2':
-        return Container(
-          color: Colors.yellow,
-        );
+      case '0':
+        return Text('0');
         break;
-      case 'T':
-        return Icon(
-          Icons.terrain,
-          size: 40.0,
+      case '1':
+        return Text('1');
+        break;
+      case '2':
+        return Text('2');
+        break;
+      case '3':
+        return Text('3');
+        break;
+      case '4':
+        return Text('4');
+        break;
+      case '5':
+        return Text('5');
+        break;
+      case '6':
+        return Text('6');
+        break;
+      case '7':
+        return Text('7');
+        break;
+      case '8':
+        return Text('8');
+        break;
+      case 'F':
+        return Container(
           color: Colors.red,
         );
         break;
       case 'B':
-        return Icon(Icons.remove_red_eye, size: 40.0);
+        return Container(
+          color: Colors.black,
+        );
         break;
       default:
         return Text(gridState[x][y].toString());

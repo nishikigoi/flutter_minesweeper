@@ -64,6 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
       }));
 
   @override
+  void initState() {
+    super.initState();
+    initBombPosition();
+    countNeighborBombsForAll();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -146,18 +153,57 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void openCell(int x, int y) {
-    int neighbor = calcNeighborBombs(x, y);
-
+  void initBombPosition() {
+    gridState[1][2].hasBomb = true;
+    gridState[2][4].hasBomb = true;
+    gridState[4][7].hasBomb = true;
+    gridState[6][2].hasBomb = true;
+    gridState[8][2].hasBomb = true;
   }
 
-  int calcNeighborBombs(int x, int y) {
+  void countNeighborBombsForAll() {
+    gridState.asMap().forEach((x, cells) {
+      cells.asMap().forEach((y, cell) {
+        cell.numNeighborBombs = countNeighborBombs(x, y);
+      });
+    });
+  }
+
+  int countNeighborBombs(int x, int y) {
+    int num = 0;
     // upper left
+    if (x > 0 && y > 0 && gridState[x - 1][y - 1].hasBomb) {
+      num++;
+    }
     // upper middle
+    if (x > 0 && gridState[x - 1][y].hasBomb) {
+      num++;
+    }
     // upper right
+    if (x > 0 && y < numCols - 1 && gridState[x - 1][y + 1].hasBomb) {
+      num++;
+    }
     // middle left
+    if (y > 0 && gridState[x][y - 1].hasBomb) {
+      num++;
+    }
     // middle right
+    if (y < numCols - 1 && gridState[x][y + 1].hasBomb) {
+      num++;
+    }
     // lower left
+    if (x < numRows - 1 && y > 0 && gridState[x + 1][y - 1].hasBomb) {
+      num++;
+    }
+    // lower middle
+    if (x < numRows - 1 && gridState[x + 1][y].hasBomb) {
+      num++;
+    }
     // lower right
+    if (x < numRows - 1 && y < numCols - 1 && gridState[x + 1][y + 1].hasBomb) {
+      num++;
+    }
+
+    return num;
   }
 }

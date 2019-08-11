@@ -150,7 +150,46 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _gridItemTapped(int x, int y) {
     setState(() {
+      openCell(x, y);
     });
+  }
+
+  void openCell(int x, int y) {
+    gridState[x][y].isOpened = true;
+    if (gridState[x][y].numNeighborBombs == 0) {
+      // upper left
+      if (x > 0 && y > 0) {
+        openCell(x - 1, y - 1);
+      }
+      // upper middle
+      if (x > 0) {
+        openCell(x - 1, y);
+      }
+      // upper right
+      if (x > 0 && y < numCols - 1) {
+        openCell(x - 1, y + 1);
+      }
+      // middle left
+      if (y > 0) {
+        openCell(x, y - 1);
+      }
+      // middle right
+      if (y < numCols - 1) {
+        openCell(x, y + 1);
+      }
+      // lower left
+      if (x < numRows - 1 && y > 0) {
+        openCell(x + 1, y - 1);
+      }
+      // lower middle
+      if (x < numRows - 1) {
+        openCell(x + 1, y);
+      }
+      // lower right
+      if (x < numRows - 1 && y < numCols - 1) {
+        openCell(x + 1, y + 1);
+      }
+    }
   }
 
   void initBombPosition() {

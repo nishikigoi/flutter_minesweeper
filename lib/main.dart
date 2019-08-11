@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() => runApp(MyApp());
 
@@ -57,6 +58,7 @@ class Cell {
 class _MyHomePageState extends State<MyHomePage> {
   static final numRows = 9;
   static final numCols = 9;
+  static final numBombs = 7;
   List<List<Cell>> gridState =
       List<List<Cell>>.generate(numRows, (i) =>
       List<Cell>.generate(numCols, (j) {
@@ -66,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    initBombPosition();
+    initializeBombs();
     countNeighborBombsForAll();
   }
 
@@ -209,12 +211,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void initBombPosition() {
-    gridState[1][2].hasBomb = true;
-    gridState[2][4].hasBomb = true;
-    gridState[4][7].hasBomb = true;
-    gridState[6][2].hasBomb = true;
-    gridState[8][2].hasBomb = true;
+  void initializeBombs() {
+    var rng = new Random();
+    for (int i = 0; i < numBombs; i++) {
+      int index = rng.nextInt(numRows * numCols);
+      int row = index ~/ numRows;
+      int col = index % numCols;
+      gridState[row][col].hasBomb = true;
+    }
   }
 
   void countNeighborBombsForAll() {

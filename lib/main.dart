@@ -147,6 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.black,
       );
     }
+    if (cellState.numNeighborBombs == 0) {
+      return Text('');
+    }
     return Text(cellState.numNeighborBombs.toString());
   }
 

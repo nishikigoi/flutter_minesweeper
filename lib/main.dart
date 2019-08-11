@@ -43,17 +43,25 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+class Cell {
+  bool isOpened;
+  bool hasBomb;
+  int numNeighborBombs;
+  Cell() {
+    this.isOpened = false;
+    this.hasBomb = false;
+    numNeighborBombs = 0;
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
-  List<List<String>> gridState = [
-  ['', '0', '0', '', '', '', '', 'B'],
-  ['', '', '', 'F', '', '', '', ''],
-  ['1', '2', '', '', '', '3', '', ''],
-  ['', '', '', '4', '', '', '', '2'],
-  ['', '', '0', '', '', '1', '', ''],
-  ['', '', '', '', '', '', '', 'B'],
-  ['', '', '', '', 'F', '', '', ''],
-  ['1', '', '', '', '', '', '3', ''],
-  ];
+  static final numRows = 9;
+  static final numCols = 9;
+  List<List<Cell>> gridState =
+      List<List<Cell>>.generate(numRows, (i) =>
+      List<Cell>.generate(numCols, (j) {
+        return Cell();
+      }));
 
   @override
   Widget build(BuildContext context) {
@@ -119,54 +127,37 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildGridItem(int x, int y) {
-    switch (gridState[x][y]) {
-      case '':
-        return Container(
-          color: Colors.grey,
-        );
-        break;
-      case '0':
-        return Text('0');
-        break;
-      case '1':
-        return Text('1');
-        break;
-      case '2':
-        return Text('2');
-        break;
-      case '3':
-        return Text('3');
-        break;
-      case '4':
-        return Text('4');
-        break;
-      case '5':
-        return Text('5');
-        break;
-      case '6':
-        return Text('6');
-        break;
-      case '7':
-        return Text('7');
-        break;
-      case '8':
-        return Text('8');
-        break;
-      case 'F':
-        return Container(
-          color: Colors.red,
-        );
-        break;
-      case 'B':
-        return Container(
-          color: Colors.black,
-        );
-        break;
-      default:
-        return Text(gridState[x][y].toString());
+    var cellState = gridState[x][y];
+    if (!cellState.isOpened) {
+      return Container(
+        color: Colors.grey,
+      );
     }
+    if (cellState.hasBomb) {
+      return Container(
+        color: Colors.black,
+      );
+    }
+    return Text(cellState.numNeighborBombs.toString());
   }
 
   void _gridItemTapped(int x, int y) {
+    setState(() {
+    });
+  }
+
+  void openCell(int x, int y) {
+    int neighbor = calcNeighborBombs(x, y);
+
+  }
+
+  int calcNeighborBombs(int x, int y) {
+    // upper left
+    // upper middle
+    // upper right
+    // middle left
+    // middle right
+    // lower left
+    // lower right
   }
 }

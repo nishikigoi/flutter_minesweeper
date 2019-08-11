@@ -150,44 +150,61 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _gridItemTapped(int x, int y) {
     setState(() {
-      openCell(x, y);
+      bool updated = false;
+      updated = openCell(x, y);
+      scanOpenedCells(updated);
     });
   }
 
-  void openCell(int x, int y) {
-    gridState[x][y].isOpened = true;
-    if (gridState[x][y].numNeighborBombs == 0) {
-      // upper left
-      if (x > 0 && y > 0) {
-        openCell(x - 1, y - 1);
-      }
-      // upper middle
-      if (x > 0) {
-        openCell(x - 1, y);
-      }
-      // upper right
-      if (x > 0 && y < numCols - 1) {
-        openCell(x - 1, y + 1);
-      }
-      // middle left
-      if (y > 0) {
-        openCell(x, y - 1);
-      }
-      // middle right
-      if (y < numCols - 1) {
-        openCell(x, y + 1);
-      }
-      // lower left
-      if (x < numRows - 1 && y > 0) {
-        openCell(x + 1, y - 1);
-      }
-      // lower middle
-      if (x < numRows - 1) {
-        openCell(x + 1, y);
-      }
-      // lower right
-      if (x < numRows - 1 && y < numCols - 1) {
-        openCell(x + 1, y + 1);
+  bool openCell(int x, int y) {
+    if (!gridState[x][y].isOpened) {
+      gridState[x][y].isOpened = true;
+      return true;
+    }
+    return false;
+  }
+
+  void scanOpenedCells(bool updated) {
+    while (updated) {
+      updated = false;
+      for (int x = 0; x < numRows; x++) {
+        for (int y = 0; y < numCols; y++) {
+          if (gridState[x][y].isOpened &&
+              gridState[x][y].numNeighborBombs == 0) {
+            // upper left
+            if (x > 0 && y > 0) {
+              updated |= openCell(x - 1, y - 1);
+            }
+            // upper middle
+            if (x > 0) {
+              updated |= openCell(x - 1, y);
+            }
+            // upper right
+            if (x > 0 && y < numCols - 1) {
+              updated |= openCell(x - 1, y + 1);
+            }
+            // middle left
+            if (y > 0) {
+              updated |= openCell(x, y - 1);
+            }
+            // middle right
+            if (y < numCols - 1) {
+              updated |= openCell(x, y + 1);
+            }
+            // lower left
+            if (x < numRows - 1 && y > 0) {
+              updated |= openCell(x + 1, y - 1);
+            }
+            // lower middle
+            if (x < numRows - 1) {
+              updated |= openCell(x + 1, y);
+            }
+            // lower right
+            if (x < numRows - 1 && y < numCols - 1) {
+              updated |= openCell(x + 1, y + 1);
+            }
+          }
+        }
       }
     }
   }
